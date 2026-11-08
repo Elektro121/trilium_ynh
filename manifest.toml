@@ -5,7 +5,7 @@ name = "Trilium Notes"
 description.en = "Hierarchical note taking application with focus on building large personal knowledge base"
 description.fr = "Application de prise de note hiérarchique centrée sur la construction d'une large base de connaissances personnelle"
 
-version = "0.106.1~ynh1"
+version = "0.106.1~ynh2"
 
 maintainers = ["Jules Bertholet"]
 
@@ -61,8 +61,8 @@ ram.runtime = "110M"
         arm64.url = "https://github.com/TriliumNext/Trilium/releases/download/v0.106.1/TriliumNotes-Server-v0.106.1-linux-arm64.tar.xz"
         arm64.sha256 = "08ec348747a05825fb061b73f4b7b0602d98f71c7c4dfeca66a05af770dbbec1"
         autoupdate.strategy = "latest_github_release"
-        autoupdate.asset.amd64 = "^TriliumNotes-Server-v\\d+(\\.\\d+){2}-linux-x64\\.tar\\.xz"
-        autoupdate.asset.arm64 = "^TriliumNotes-Server-v\\d+(\\.\\d+){2}-linux-arm64\\.tar\\.xz"
+        autoupdate.asset.amd64 = "^TriliumNotes-Server-v\\\\d+(\\\\.\\\\d+){2}-linux-x64\\\\.tar\\\\.xz"
+        autoupdate.asset.arm64 = "^TriliumNotes-Server-v\\\\d+(\\\\.\\\\d+){2}-linux-arm64\\\\.tar\\\\.xz"
 
     [resources.system_user]
 
@@ -72,6 +72,14 @@ ram.runtime = "110M"
 
     [resources.permissions]
     main.url = "/"
+
+    # Fork local : expose l'API REST ETAPI sans passer par le SSO, pour qu'un
+    # client MCP sur le LAN puisse l'utiliser (https://<domaine>/<chemin>/etapi).
+    # La protection de cette URL est le token ETAPI, pas le SSO.
+    # Le reste de l'application (main.url) reste derrière le SSO.
+    etapi.url = "/etapi"
+    etapi.show_tile = false
+    etapi.allowed = "visitors"
 
     [resources.ports]
     main.default = 8095
